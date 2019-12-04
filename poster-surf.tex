@@ -58,7 +58,6 @@
             % ---------------------------------------------------------%
             % fill each column with content
             
-            \vspace*{\fill}
             \begin{block}{Introduction}
                   \begin{center}
                     \includegraphics[viewport=0 200 1024 600, clip=true,width=\linewidth]{figures/cms_dataflow.pdf}
@@ -102,6 +101,7 @@
                   \begin{center}
                     \includegraphics[width=\linewidth]{figures/flow-hls4ml.pdf}
                   \end{center}
+                \vspace{0.5in}
                 Explore the FPGA design space through
                 \begin{itemize}
                 \item {\bf compression}, the three-hidden-layer model with 70\% of the parameters removed using iterative retraining with $L_1$ regularization and magnitude-based pruning
@@ -120,7 +120,6 @@
                 \end{itemize}
               \end{block}
               
-              \vspace*{\fill}
                 }
               \end{minipage}
             \end{beamercolorbox}
@@ -135,7 +134,6 @@
         \begin{minipage}[T]{.95\textwidth} 
           \parbox[t][\columnheight]{\textwidth}{
             
-            \vspace*{\fill}
             \begin{block}{Implementation}
               \begin{itemize}
                 \item First evaluate NN with fixed point precision:
@@ -146,7 +144,7 @@
                   decreases for larger reuse factors
                   \item Latency increases from 10 to 35 clock cycles
                     (50 to 175~ns) for larger reuse factors
-                  \item Xilinx Kintex Ultrascale FPGA part number
+                  \item Results based on Xilinx Kintex Ultrascale FPGA part number
                     \texttt{xcku115-flvb2104-2-i}, 200~MHz clock
                     frequency, Vivado HLS 2017.2
               \end{itemize}
@@ -165,9 +163,10 @@
                       stored in on-chip memory or BRAM, reducing the use of on-chip logic registers
                     \item addition of binary and ternary matrix multiplication
                     \end{itemize}
+                \vspace{0.5in}
                     To demonstrate the new developments, several versions of a large dense network to classify handwritten MNIST digits are benchmarked
                     \begin{center}
-                    \includegraphics[viewport=0 180 1024 600, clip=true,width=\linewidth]{MNIST_big.png}
+                    \includegraphics[width=\linewidth]{MNIST_big.pdf}
                   \end{center}
                   \begin{center}
                     \resizebox{\textwidth}{!}{
@@ -205,9 +204,7 @@
                           \begin{flushright}\vspace{-3ex}
                             \href{https://ml4physicalsciences.github.io/files/NeurIPS_ML4PS_2019_74.pdf}{\includegraphics[width=0.18\textwidth]{qrcode.png}}
                           \end{flushright}
-                          \vspace{3ex}
                   \end{block}                  
-                  \vspace*{\fill}
           }
           % ---------------------------------------------------------%
           % end the column
