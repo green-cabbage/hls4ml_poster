@@ -26,17 +26,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \graphicspath{{figures/}}
  
-\title{Low-latency machine learning inference on FPGAs}
-\author{\href{https://jduarte.physics.ucsd.edu}{Javier Duarte}{\color{lightgray}\inst{1,2}},  Christian Herwig{\color{lightgray}\inst{2}},
-  Burt Holzman{\color{lightgray}\inst{2}}, Sergo Jindariani{\color{lightgray}\inst{2}}, Benjamin
-  Kreis{\color{lightgray}\inst{2}},  Mia Liu{\color{lightgray}\inst{2}}, Ryan
-  Rivera{\color{lightgray}\inst{2}},  Nhan Tran{\color{lightgray}\inst{2}},  Song Han{\color{lightgray}\inst{3}},  Phil
-  Harris{\color{lightgray}\inst{3}},  Dylan Rankin{\color{lightgray}\inst{3}}, Vladimir Loncar{\color{lightgray}\inst{4}},
-  Jennifer Ngadiuba{\color{lightgray}\inst{4}}, Maurizio Pierini{\color{lightgray}\inst{4}}, Sioni
-  Summers{\color{lightgray}\inst{4}}, Scott Hauck{\color{lightgray}\inst{5}}, Shih-Chieh Hsu{\color{lightgray}\inst{5}}, Zhenbin Wu{\color{lightgray}\inst{6}},  Edward Kreinar{\color{lightgray}\inst{7}}}
-\institute{\color{lightgray}\inst{1} UC San Diego \inst{2} Fermilab \inst{3} MIT
+\title{Low-latency L1 Trigger Inference using GNN for $\tau \rightarrow 3 \mu$}
+\author{
+	Hyeon-Seo Yun{\color{lightgray}\inst{1}}, \href{https://mia.physics.purdue.edu/}{Mia Liu}{\color{lightgray}\inst{1}}
+}
+\institute{\color{lightgray}\inst{1} Purdue University \inst{2} Fermilab \inst{3} MIT
   \inst{4} CERN \inst{5} UW \inst{6} UIC \inst{7} HawkEye360}
-\date[December 14, 2019]{December 14, 2019}
+\date[November 16, 2022]{November 16, 2022}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newlength{\columnheight}
@@ -58,20 +57,20 @@
             % ---------------------------------------------------------%
             % fill each column with content
             
-            \begin{block}{Introduction}
+            \begin{block}{Need for low-latency in L1 Trigger}
                   \begin{center}
                     \includegraphics[viewport=0 200 1024 600, clip=true,width=\linewidth]{figures/cms_dataflow.pdf}
                   \end{center}
                   \begin{itemize}
-                    \item Machine learning (ML) use case in particle physics: first stage of real-time data processing and
-                      filtering in field programmable gate arrays (FPGAs)
-                    \item CERN LHC requirements: high input data rates $>100$ TB/s,
-                      $<1\mu$s fixed algorithm latency, constrained FPGA resources
+                    \item Machine learning (ML) use case in particle physics: L1 Trigger, thge first stage of real-time data processing and
+                      filtering, using field programmable gate arrays (FPGAs)
+                    \item CERN CMS L1 Trigger requirements: high input data rates $>100$ TB/s,
+                      $<100$ns fixed algorithm latency, constrained FPGA resources
                     \item Compiler based on high-level synthesis (HLS) called \hlsfml~to rapidly prototype ML models in FPGAs
               \end{itemize}
             \end{block}
 
-            \begin{block}{Case study}
+            \begin{block}{Usage of Graph Neural Networks (GNN) in Filtering Task}
               \begin{itemize}
               \item Task: differentiate showers (or \emph{jets})
                 produced in decays of heavy standard model
@@ -82,8 +81,7 @@
               \begin{columns}              
               \begin{column}{.49\textwidth}
                 \begin{itemize}
-              \item Fully-connected neural network (NN) with 16 inputs and 3 hidden
-                layers (64, 32, 32) to classify 5 categories of jets
+              \item GNN
               \item Performance quantified in a receiver operating
                 characteristic (ROC) curve of signal efficiency versus
                 misidentification rate for quark, gluon, $W$ boson,
@@ -92,14 +90,14 @@
             \end{column}
             \begin{column}{.49\textwidth}
              \begin{center}
-                    \includegraphics[width=\linewidth]{roc-32bit.pdf}
+                    \includegraphics[width=\linewidth]{gnn_roc.png}
                   \end{center}
                 \end{column}
                 \end{columns}
               \end{block}
             \begin{block}{Design}
                   \begin{center}
-                    \includegraphics[width=\linewidth]{figures/flow-hls4ml.pdf}
+                    \includegraphics[width=\linewidth]{figures/graph_creation.png}
                   \end{center}
                 \vspace{0.5in}
                 Explore the FPGA design space through
@@ -134,7 +132,10 @@
         \begin{minipage}[T]{.95\textwidth} 
           \parbox[t][\columnheight]{\textwidth}{
             
-            \begin{block}{Implementation}
+            \begin{block}{FPGA Implementation via hls4ml}
+             \begin{center}
+                \includegraphics[width=0.8\linewidth]{flow-hls4ml.pdf}
+              \end{center}
               \begin{itemize}
                 \item First evaluate NN with fixed point precision:
                   {\tt <16,6>} fixed-point precision reproduces the
@@ -148,12 +149,9 @@
                     \texttt{xcku115-flvb2104-2-i}, 200~MHz clock
                     frequency, Vivado HLS 2017.2
               \end{itemize}
-              \begin{center}
-                \includegraphics[width=0.49\linewidth]{scan_X_6_KUS_DSP_pruned.pdf}
-                \includegraphics[width=0.49\linewidth]{scan_X_6_KUS_Latency_pruned.pdf}
-              \end{center}
+             
             \end{block}
-                  \begin{block}{Recent developments}
+                  \begin{block}{Quantization Aware Training}
                     To enhance the flexibility of \hlsfml, several new
                     developments include
                     \begin{itemize}
@@ -202,7 +200,7 @@
                             latency constraints of approximately 1--100~$\mu$s 
                           \end{itemize}
                           \begin{flushright}\vspace{-3ex}
-                            \href{https://ml4physicalsciences.github.io/files/NeurIPS_ML4PS_2019_74.pdf}{\includegraphics[width=0.18\textwidth]{qrcode.png}}
+                           % \href{https://ml4physicalsciences.github.io/files/NeurIPS_ML4PS_2019_74.pdf}{\includegraphics[width=0.18\textwidth]{qrcode.png}}
                           \end{flushright}
                   \end{block}                  
           }
@@ -225,4 +223,15 @@
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-PDF-mode: t
-%%% End:
+%%% Comments below:
+
+
+
+\href{https://jduarte.physics.ucsd.edu}{Javier Duarte}{\color{lightgray}\inst{1,2}},  Christian Herwig{\color{lightgray}\inst{2}},
+	  Burt Holzman{\color{lightgray}\inst{2}}, Sergo Jindariani{\color{lightgray}\inst{2}}, Benjamin
+	  Kreis{\color{lightgray}\inst{2}},  \href{https://mia.physics.purdue.edu/}{Mia Liu}{\color{lightgray}\inst{2}}, Ryan
+	  Rivera{\color{lightgray}\inst{2}},  Nhan Tran{\color{lightgray}\inst{2}},  Song Han{\color{lightgray}\inst{3}},  Phil
+	  Harris{\color{lightgray}\inst{3}},  Dylan Rankin{\color{lightgray}\inst{3}}, Vladimir Loncar{\color{lightgray}\inst{4}},
+	  Jennifer Ngadiuba{\color{lightgray}\inst{4}}, Maurizio Pierini{\color{lightgray}\inst{4}}, Sioni
+	  Summers{\color{lightgray}\inst{4}}, Scott Hauck{\color{lightgray}\inst{5}}, Shih-Chieh Hsu{\color{lightgray}\inst{5}}, Zhenbin Wu{\color{lightgray}\inst{6}},  Edward 	Kreinar{\color{lightgray}\inst{7}}
+
