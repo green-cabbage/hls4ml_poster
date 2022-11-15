@@ -66,7 +66,7 @@
                     \item Machine Learning (ML) use case in particle physics: L1 Trigger, the first stage of real-time data processing and filtering
                      \item Due to low latency requirements, field programmable gate arrays (FPGAs) are used in Triggers
                     \item CERN CMS L1 Trigger requirements: high input data rates ($\approx40$ TB/s) into smaller output data rates ($\approx0.75$ TB/s), 
-                    with fixed algorithm latency of less than $12.5 \mu$s
+                    with fixed algorithm latency in the order of tens of nanoseconds.
                     \item High Level Synthesis (HLS) Compiler named \hlsfml~ is used to rapidly prototype ML models in FPGAs
               \end{itemize}
             \end{block}
@@ -163,9 +163,9 @@
               \end{center}
               \begin{itemize}
               \item \hlsfml\;is a pythonic compiler that translates  {\tt Keras} or {\tt PyTorch} NN models into High Level Synthesis (HLS) code.
-              \item FPGA can use HLS to generate said NN models for use in L1 Trigger.
-               \item \hlsfml\;supports normal fully-connected Neural Networks (NN), but no GNNs currently.
-                \item We have custom hard-coded our GNN model into \hlsfml, but resources are overloaded. Our GNN model needs to be more lightweight
+              \item HLS ports said NN models to FPGAs for L1 Trigger.
+               \item \hlsfml\;supports normal fully-connected NNs, but little GNN support.
+                \item We have custom hard-coded our GNN model into \hlsfml, but FPGA resources overloaded. Our GNN model needs to be more lightweight
               \end{itemize}
              
             \end{block}
@@ -177,10 +177,10 @@
                     \item \hlsfml \; uses arbituary precision fixed (ap-fixed) quantization method for faster inference.
                     \item Simply quantizing our pre-trained GNN greatly decreases performance.
                     \item QAT is a specialized method of training NNs that maintains performance with quantization.
-                    \item Using {\tt Brevitas}, we demonstrated QAT on fully-connected NN with non $\tau \rightarrow 3 \mu$ data, for testing purposes.
+                    \item Using {\tt Brevitas}, we demonstrated QAT on fully-connected NN with non $\tau \rightarrow 3 \mu$ data, for benchmarking.
                     \end{itemize}
                 \vspace{0.5in}
-                    To demonstrate QAT, we use Higgs KAggle data as a benchmark (https://www.kaggle.com/competitions/higgs-boson/data)
+                    To demonstrate QAT, we use Higgs Kaggle data as a benchmark (https://www.kaggle.com/competitions/higgs-boson/data)
                    \begin{center}
                 \includegraphics[width=0.49\linewidth]{figures/torch_quantized.png}
                 \includegraphics[width=0.49\linewidth]{figures/bv_quantized.png}
